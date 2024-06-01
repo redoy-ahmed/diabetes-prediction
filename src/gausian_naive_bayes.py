@@ -1,9 +1,8 @@
 import pandas as pd
+import joblib
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-from sklearn import tree
-import matplotlib.pyplot as plt
 
 # Load dataset
 try:
@@ -25,8 +24,8 @@ y = data[target_column]
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Initialize and train the Decision Tree model
-model = DecisionTreeClassifier(random_state=42)
+# Initialize and train the Naive Bayes model
+model = GaussianNB()
 model.fit(X_train, y_train)
 
 # Predict on the test set
@@ -42,15 +41,16 @@ print(f'Accuracy: {accuracy:.2f}')
 print(f'Confusion Matrix:\n{conf_matrix}')
 print(f'Classification Report:\n{class_report}')
 
-# Visualize the Decision Tree
-plt.figure(figsize=(20, 10))
-tree.plot_tree(model, feature_names=feature_columns, class_names=['No Diabetes', 'Diabetes'], filled=True)
-plt.show()
-
 # Test on a single data point
 single_data = X_test.iloc[0].values.reshape(1, -1)
 single_pred = model.predict(single_data)
 single_prob = model.predict_proba(single_data)
 
-print(f"Single data point prediction: {single_pred[0]}")
-print(f"Prediction probabilities: {single_prob[0]}")
+# Map prediction to "Yes" or "No"
+prediction_label = "Yes" if single_pred[0] == 1 else "No"
+
+print(f"Diabetes: {prediction_label}")
+print(f"Prediction probabilities No and Yes: {single_prob[0]}")
+
+joblib.dump(model, 'diabetes_model_nb.pkl')
+print("Model saved as 'diabetes_model_nb.pkl'.")

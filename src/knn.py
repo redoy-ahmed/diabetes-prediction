@@ -53,5 +53,5 @@ prediction_label = "Yes" if single_pred[0] == 1 else "No"
 print(f"Diabetes: {prediction_label}")
 print(f"Prediction probabilities No and Yes: {single_prob[0]}")
 
-joblib.dump(model, 'diabetes_model.pkl')
-print("Model saved as 'diabetes_model.pkl'.")
+joblib.dump(model, 'diabetes_model_knn.pkl')
+print("Model saved as 'diabetes_model_knn.pkl'.")
