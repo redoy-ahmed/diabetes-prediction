@@ -4,6 +4,8 @@ import joblib
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem, QLabel
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
 
 
 class DiabetesPrediction(QWidget):
@@ -14,6 +16,8 @@ class DiabetesPrediction(QWidget):
         self.df_csv = None
         self.selected_row = None
         self.row_data_named = None
+        self.accuracy_knn = None
+        self.accuracy_nb = None
         self.initUI()
 
     # Initialize the UI components
@@ -22,12 +26,30 @@ class DiabetesPrediction(QWidget):
         self.loadModels()
         self.createUI()
 
-    # Load the kNN and Naive Bayes models
+    # Load the kNN and Naive Bayes models and calculate their accuracies
     def loadModels(self):
         try:
             self.df_knn = joblib.load('../models/diabetes_model_knn.pkl')
             self.df_nb = joblib.load('../models/diabetes_model_nb.pkl')
             print("Models loaded successfully.")
+
+            # Load the dataset to calculate accuracy
+            df = pd.read_csv('../data/diabetes.csv')
+            feature_columns = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI',
+                               'DiabetesPedigreeFunction', 'Age']
+            target_column = 'Outcome'
+            X = df[feature_columns]
+            y = df[target_column]
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+            # Calculate accuracy for kNN
+            y_pred_knn = self.df_knn.predict(X_test)
+            self.accuracy_knn = accuracy_score(y_test, y_pred_knn)
+
+            # Calculate accuracy for Naive Bayes
+            y_pred_nb = self.df_nb.predict(X_test)
+            self.accuracy_nb = accuracy_score(y_test, y_pred_nb)
+
         except FileNotFoundError as e:
             print(f"Error: {e}")
             raise
@@ -132,21 +154,21 @@ class DiabetesPrediction(QWidget):
         return pd.DataFrame([row_data], columns=column_names)
 
     # Generic function to predict the outcome and update the label
-    def predictOutcome(self, model, label_text):
+    def predictOutcome(self, model, label_text, to_be_shown, accuracy):
         prediction = int(model.predict(self.row_data_named)[0])
         result = "Diabetic" if prediction == 1 else "Non-Diabetic"
         color = "red" if prediction == 1 else "green"
-        self.label.setText(f"{label_text} {result}")
-        self.label.setStyleSheet(f"color: {color}; font-size: 20px;")
+        to_be_shown.setText(f"{label_text} {result} (Accuracy: {accuracy:.2f})")
+        to_be_shown.setStyleSheet(f"color: {color}; font-size: 20px;")
 
     # Predict the outcome using the kNN model
     def predictOutcomeUsingKnn(self):
-        self.predictOutcome(self.df_knn, self.self.labelkNN)
+        self.predictOutcome(self.df_knn, self.labelkNN, self.prediction_label_knn, self.accuracy_knn)
         self.table_widget.clearSelection()
 
     # Predict the outcome using the Naive Bayes model
     def predictOutcomeUsingNaiveBayes(self):
-        self.predictOutcome(self.df_nb, self.labelnb)
+        self.predictOutcome(self.df_nb, self.labelnb, self.prediction_label_nb, self.accuracy_nb)
         self.table_widget.clearSelection()
 
     # Display a message to the user
