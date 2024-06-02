@@ -1,12 +1,12 @@
 import pandas as pd
 import joblib
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
 # Load dataset
 try:
-    data = pd.read_csv('diabetes.csv')
+    data = pd.read_csv('../data/diabetes.csv')
     print("Dataset loaded successfully.")
 except FileNotFoundError:
     print("Error: The file 'diabetes.csv' was not found.")
@@ -24,8 +24,9 @@ y = data[target_column]
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Initialize and train the Naive Bayes model
-model = GaussianNB()
+# Initialize and train the k-NN model
+k = 5  # You can adjust the number of neighbors
+model = KNeighborsClassifier(n_neighbors=k)
 model.fit(X_train, y_train)
 
 # Predict on the test set
@@ -52,5 +53,5 @@ prediction_label = "Yes" if single_pred[0] == 1 else "No"
 print(f"Diabetes: {prediction_label}")
 print(f"Prediction probabilities No and Yes: {single_prob[0]}")
 
-joblib.dump(model, 'diabetes_model_nb.pkl')
-print("Model saved as 'diabetes_model_nb.pkl'.")
+joblib.dump(model, '../models/diabetes_model_knn.pkl')
+print("Model saved as 'diabetes_model_knn.pkl'.")
