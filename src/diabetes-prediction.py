@@ -57,6 +57,7 @@ class DiabetesPrediction(QWidget):
     # Create the UI elements and layout
     def createUI(self):
         self.submit_button = self.createButton('Submit', self.submitClicked, 150, 60, "font-size: 20px;")
+        self.refresh_button = self.createButton('Refresh', self.refreshClicked, 150, 60, "font-size: 20px;")
         self.table_widget = QTableWidget(self)
         self.loadRandomData()
         self.label = QLabel("Please select a row from the Grid")
@@ -68,11 +69,14 @@ class DiabetesPrediction(QWidget):
         self.prediction_label_nb.setStyleSheet("font-size: 20px;")
 
         layout = QVBoxLayout(self)
+        button_layout = QVBoxLayout()
+        button_layout.addWidget(self.submit_button)
+        button_layout.addWidget(self.refresh_button)
         layout.addWidget(self.table_widget)
         layout.addWidget(self.label)
         layout.addWidget(self.prediction_label_knn)
         layout.addWidget(self.prediction_label_nb)
-        layout.addWidget(self.submit_button)
+        layout.addLayout(button_layout)
         self.adjustWindowSize()
 
     # Helper function to create a button
@@ -152,6 +156,10 @@ class DiabetesPrediction(QWidget):
                     for column in range(self.table_widget.columnCount() - 1)]
         column_names = self.df_csv.columns[:-1]
         return pd.DataFrame([row_data], columns=column_names)
+
+    # Refresh the table with random data
+    def refreshClicked(self):
+        self.loadRandomData()
 
     # Generic function to predict the outcome and update the label
     def predictOutcome(self, model, label_text, to_be_shown, accuracy):
