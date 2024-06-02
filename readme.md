@@ -1,4 +1,6 @@
-# Diabetes Prediction Application
+# Diabetes Prediction Application using ML Models
+
+![Diabetes Prediction](https://github.com/redoy-ahmed/diabetes-prediction/blob/master/img.png)
 
 ## Overview
 
