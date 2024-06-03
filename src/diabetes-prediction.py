@@ -110,7 +110,7 @@ class DiabetesPrediction(QWidget):
                 item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                 self.table_widget.setItem(i, j, item)
 
-        self.table_widget.itemClicked.connect(self.on_table_item_click)
+        self.table_widget.itemClicked.connect(self.onTableItemClick)
 
     # Set the style for the table headers
     def setTableHeaderStyle(self):
@@ -127,7 +127,7 @@ class DiabetesPrediction(QWidget):
         self.resize(table_width, table_height)
 
     # Handle table item click event to select the entire row
-    def on_table_item_click(self, item):
+    def onTableItemClick(self, item):
         self.table_widget.selectRow(item.row())
         self.label.setVisible(False)
 
