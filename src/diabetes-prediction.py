@@ -22,7 +22,7 @@ class DiabetesPrediction(QWidget):
 
     # Initialize the UI components
     def initUI(self):
-        self.setWindowTitle('Diabetes Prediction Form')
+        self.setWindowTitle('Diabetes Prediction')
         self.loadModels()
         self.createUI()
 
@@ -168,6 +168,7 @@ class DiabetesPrediction(QWidget):
         color = "red" if prediction == 1 else "green"
         to_be_shown.setText(f"{label_text} {result} (Accuracy: {accuracy:.2f})")
         to_be_shown.setStyleSheet(f"color: {color}; font-size: 20px;")
+        print(f"Model: {label_text.strip()} - Prediction: {result}")
 
     # Predict the outcome using the kNN model
     def predictOutcomeUsingKnn(self):

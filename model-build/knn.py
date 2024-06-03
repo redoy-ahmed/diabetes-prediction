@@ -44,8 +44,9 @@ print(f'Classification Report:\n{class_report}')
 
 # Test on a single data point
 single_data = X_test.iloc[0].values.reshape(1, -1)
-single_pred = model.predict(single_data)
-single_prob = model.predict_proba(single_data)
+single_data_df = pd.DataFrame(single_data, columns=feature_columns)  # Ensure proper feature names
+single_pred = model.predict(single_data_df)
+single_prob = model.predict_proba(single_data_df)
 
 # Map prediction to "Yes" or "No"
 prediction_label = "Yes" if single_pred[0] == 1 else "No"

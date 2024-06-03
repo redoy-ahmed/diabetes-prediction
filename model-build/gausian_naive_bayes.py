@@ -1,8 +1,11 @@
 import pandas as pd
 import joblib
+import warnings
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+warnings.filterwarnings("ignore", category=UserWarning, module='sklearn')
 
 # Load dataset
 try:
@@ -52,5 +55,6 @@ prediction_label = "Yes" if single_pred[0] == 1 else "No"
 print(f"Diabetes: {prediction_label}")
 print(f"Prediction probabilities No and Yes: {single_prob[0]}")
 
+# Save the model
 joblib.dump(model, '../models/diabetes_model_nb.pkl')
 print("Model saved as 'diabetes_model_nb.pkl'.")
