@@ -42,11 +42,20 @@ class DiabetesPredictionApp(QWidget):
     # Load the kNN model
     def loadModel(self):
         try:
-            self.model = joblib.load('../models/diabetes_model_knn.pkl')
+            # Determine the environment
+            if sys.platform == "darwin":
+                self.model = joblib.load('/Users/redoyahmed/Desktop/Python Projects/diabetes-prediction/models/diabetes_model_knn.pkl')
+            else:
+                self.model = joblib.load('../models/diabetes_model_knn.pkl')
+
             print("Model loaded successfully.")
 
             # Load the dataset
-            self.df = pd.read_csv('../data/diabetes.csv')
+            # Determine the environment
+            if sys.platform == "darwin":
+                self.df = pd.read_csv('/Users/redoyahmed/Desktop/Python Projects/diabetes-prediction/data/diabetes.csv')
+            else:
+                self.df = pd.read_csv('../data/diabetes.csv')
 
         except FileNotFoundError as e:
             print(f"Error: {e}")
@@ -63,7 +72,7 @@ class DiabetesPredictionApp(QWidget):
         mainLayout = QVBoxLayout()
         # Title and description
         title = QLabel('Diabetes Prediction')
-        title.setFont(QFont('Arial', 16))
+        title.setFont(QFont('Arial', 25))
         title.setAlignment(Qt.AlignCenter)
         mainLayout.addWidget(title)
         # Create grid layout for input fields
@@ -189,6 +198,15 @@ class DiabetesPredictionApp(QWidget):
 
 # Create the application
 app = QApplication(sys.argv)
+
+# Determine the environment
+if sys.platform == "darwin":
+    # Apply a global stylesheet to set the text color of all widgets to black
+    app.setStyleSheet("""
+        * {
+            color: black;
+        }
+    """)        
 
 # Create and show the form
 form = DiabetesPredictionApp()

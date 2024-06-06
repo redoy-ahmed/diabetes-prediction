@@ -1,3 +1,5 @@
+import sys
+
 import pandas as pd
 import joblib
 from sklearn.model_selection import train_test_split
@@ -6,7 +8,12 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 
 # Load dataset
 try:
-    data = pd.read_csv('../data/diabetes.csv')
+    # Determine the environment
+    if sys.platform == "darwin":
+        data = pd.read_csv('/Users/redoyahmed/Desktop/Python Projects/diabetes-prediction/data/diabetes.csv')
+    else:
+        data = pd.read_csv('../data/diabetes.csv')
+    
     print("Dataset loaded successfully.")
 except FileNotFoundError:
     print("Error: The file 'diabetes.csv' was not found.")
@@ -54,5 +61,10 @@ prediction_label = "Yes" if single_pred[0] == 1 else "No"
 print(f"Diabetes: {prediction_label}")
 print(f"Prediction probabilities No and Yes: {single_prob[0]}")
 
-joblib.dump(model, '../models/diabetes_model_knn.pkl')
+# Determine the environment
+if sys.platform == "darwin":
+    joblib.dump(model, '/Users/redoyahmed/Desktop/Python Projects/diabetes-prediction/models/diabetes_model_knn.pkl')
+else:
+    joblib.dump(model, '../models/diabetes_model_knn.pkl')
+
 print("Model saved as 'diabetes_model_knn.pkl'.")
