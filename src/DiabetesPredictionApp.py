@@ -7,8 +7,6 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QIntValidator, QDoubleValidator
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, \
     QGridLayout, QLineEdit, QMessageBox
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
 
 
 class DiabetesPredictionApp(QWidget):
@@ -17,7 +15,6 @@ class DiabetesPredictionApp(QWidget):
         self.fontSize = '20px'
         self.model = None
         self.df = None
-        self.accuracy = None
         self.loadModel()
         self.pregnancyInput = None
         self.glucoseInput = None
@@ -33,25 +30,14 @@ class DiabetesPredictionApp(QWidget):
 
         self.initUI()
 
-    # Load the kNN model and calculate its accuracy
+    # Load the kNN model
     def loadModel(self):
         try:
             self.model = joblib.load('../models/diabetes_model_knn.pkl')
             print("Model loaded successfully.")
 
-            # Load the dataset to calculate accuracy
+            # Load the dataset
             self.df = pd.read_csv('../data/diabetes.csv')
-            featureColumns = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI',
-                              'DiabetesPedigreeFunction', 'Age']
-            targetColumn = 'Outcome'
-            X = self.df[featureColumns]
-            y = self.df[targetColumn]
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-            # Calculate accuracy for kNN
-            y_pred_knn = self.model.predict(X_test)
-            self.accuracy = accuracy_score(y_test, y_pred_knn)
-            print(f"kNN Model Accuracy: {self.accuracy:.2f}")
 
         except FileNotFoundError as e:
             print(f"Error: {e}")
@@ -204,11 +190,11 @@ class DiabetesPredictionApp(QWidget):
 
         # Display result
         if prediction[0] == 1:
-            self.resultLabel.setText(f"Result: Diabetic (Accuracy: {self.accuracy:.2f})")
+            self.resultLabel.setText(f"Result: Diabetic")
             self.resultLabel.setFont(QFont('Arial', 16))
             self.resultLabel.setStyleSheet("color: red;")
         else:
-            self.resultLabel.setText(f"Result: Non-Diabetic (Accuracy: {self.accuracy:.2f})")
+            self.resultLabel.setText(f"Result: Non-Diabetic")
             self.resultLabel.setFont(QFont('Arial', 16))
             self.resultLabel.setStyleSheet("color: green;")
 
