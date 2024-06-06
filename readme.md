@@ -95,14 +95,6 @@ Feel free to submit issues and enhancement requests.
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-
-   
-3. Interact with the GUI:
-
-- The application will display a table with random samples from the diabetes.csv file.
-- Select a row from the table to test the data.
-- Click the "Submit" button to see the predictions from both the k-NN and Naive Bayes models.
-
 ## Acknowledgments
 The dataset used for training the models is sourced from the PIMA Indians Diabetes Database.
 Thanks to the developers of the Python packages used in this project: Pandas, scikit-learn, joblib, and PyQt5.
