@@ -61,6 +61,8 @@ class DiabetesPredictionApp(QWidget):
         # Set window properties
         self.setWindowTitle('Diabetes Prediction')
         self.setGeometry(100, 100, 600, 600)
+        # Set background color
+        self.setStyleSheet("background-color: lightblue;")
         # Main layout
         main_layout = QVBoxLayout()
         # Title and description
@@ -74,49 +76,57 @@ class DiabetesPredictionApp(QWidget):
         # Create and add widgets to the grid layout
         grid_layout.addWidget(self.addQLabel("Pregnancies"), 0, 0)
         self.pregnancyInput = QLineEdit()
-        self.pregnancyInput.setStyleSheet(f'font-size: {self.fontSize}')
+        self.pregnancyInput.setStyleSheet(
+            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
         self.pregnancyInput.setValidator(QIntValidator(0, 20))
         grid_layout.addWidget(self.pregnancyInput, 0, 1)
 
         grid_layout.addWidget(self.addQLabel("Glucose level:"), 1, 0)
         self.glucoseInput = QLineEdit()
-        self.glucoseInput.setStyleSheet(f'font-size: {self.fontSize}')
+        self.glucoseInput.setStyleSheet(
+            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
         self.glucoseInput.setValidator(QIntValidator(0, 300))
         grid_layout.addWidget(self.glucoseInput, 1, 1)
 
         grid_layout.addWidget(self.addQLabel("Blood Pressure:"), 2, 0)
         self.bloodPressureInput = QLineEdit()
-        self.bloodPressureInput.setStyleSheet(f'font-size: {self.fontSize}')
+        self.bloodPressureInput.setStyleSheet(
+            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
         self.bloodPressureInput.setValidator(QIntValidator(0, 200))
         grid_layout.addWidget(self.bloodPressureInput, 2, 1)
 
         grid_layout.addWidget(self.addQLabel("Skin Thickness:"), 3, 0)
         self.skinThicknessInput = QLineEdit()
-        self.skinThicknessInput.setStyleSheet(f'font-size: {self.fontSize}')
+        self.skinThicknessInput.setStyleSheet(
+            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
         self.skinThicknessInput.setValidator(QIntValidator(0, 100))
         grid_layout.addWidget(self.skinThicknessInput, 3, 1)
 
         grid_layout.addWidget(self.addQLabel("Insulin Level:"), 4, 0)
         self.insulinInput = QLineEdit()
-        self.insulinInput.setStyleSheet(f'font-size: {self.fontSize}')
+        self.insulinInput.setStyleSheet(
+            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray; background-color: lightgray;')
         self.insulinInput.setValidator(QIntValidator(0, 900))
         grid_layout.addWidget(self.insulinInput, 4, 1)
 
         grid_layout.addWidget(self.addQLabel("Body Mass Index:"), 5, 0)
         self.bmiInput = QLineEdit()
-        self.bmiInput.setStyleSheet(f'font-size: {self.fontSize}')
+        self.bmiInput.setStyleSheet(
+            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
         self.bmiInput.setValidator(QDoubleValidator(0, 100, 2))
         grid_layout.addWidget(self.bmiInput, 5, 1)
 
         grid_layout.addWidget(self.addQLabel("Diabetes Pedigree Function:"), 6, 0)
         self.dpfInput = QLineEdit()
-        self.dpfInput.setStyleSheet(f'font-size: {self.fontSize}')
+        self.dpfInput.setStyleSheet(
+            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
         self.dpfInput.setValidator(QDoubleValidator(0, 3, 2))
         grid_layout.addWidget(self.dpfInput, 6, 1)
 
         grid_layout.addWidget(self.addQLabel("Age:"), 7, 0)
         self.ageInput = QLineEdit()
-        self.ageInput.setStyleSheet(f'font-size: {self.fontSize}')
+        self.ageInput.setStyleSheet(
+            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
         self.ageInput.setValidator(QIntValidator(0, 120))
         grid_layout.addWidget(self.ageInput, 7, 1)
 
@@ -131,12 +141,16 @@ class DiabetesPredictionApp(QWidget):
         # Predict button
         self.predictButton = QPushButton('Predict')
         self.predictButton.setFont(QFont('Arial', 14))
+        self.predictButton.setStyleSheet("border: 2px solid white; background-color: lightgray;")
+        self.predictButton.setFixedHeight(50)
         self.predictButton.clicked.connect(self.predictDiabetes)
         main_layout.addWidget(self.predictButton)
 
         # Load Random Data button
         self.loadDataButton = QPushButton('Load Random Data')
         self.loadDataButton.setFont(QFont('Arial', 14))
+        self.loadDataButton.setStyleSheet("border: 2px solid white; background-color: lightgray;")
+        self.loadDataButton.setFixedHeight(50)
         self.loadDataButton.clicked.connect(self.loadRandomData)
         main_layout.addWidget(self.loadDataButton)
 
@@ -191,10 +205,12 @@ class DiabetesPredictionApp(QWidget):
         # Display result
         if prediction[0] == 1:
             self.resultLabel.setText(f"Result: Diabetic (Accuracy: {self.accuracy:.2f})")
-            self.resultLabel.setStyleSheet("color: red; font-size: 20px;")
+            self.resultLabel.setFont(QFont('Arial', 16))
+            self.resultLabel.setStyleSheet("color: red;")
         else:
             self.resultLabel.setText(f"Result: Non-Diabetic (Accuracy: {self.accuracy:.2f})")
-            self.resultLabel.setStyleSheet("color: green; font-size: 20px;")
+            self.resultLabel.setFont(QFont('Arial', 16))
+            self.resultLabel.setStyleSheet("color: green;")
 
 
 # Create the application
