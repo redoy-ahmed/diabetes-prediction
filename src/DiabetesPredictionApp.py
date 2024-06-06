@@ -105,7 +105,7 @@ class DiabetesPredictionApp(QWidget):
         grid_layout.addWidget(self.addQLabel("Insulin Level:"), 4, 0)
         self.insulinInput = QLineEdit()
         self.insulinInput.setStyleSheet(
-            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray; background-color: lightgray;')
+            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray; ')
         self.insulinInput.setValidator(QIntValidator(0, 900))
         grid_layout.addWidget(self.insulinInput, 4, 1)
 
