@@ -6,7 +6,7 @@ import pandas as pd
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QIntValidator, QDoubleValidator
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, \
-    QGridLayout, QLineEdit
+    QGridLayout, QLineEdit, QMessageBox
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
@@ -14,6 +14,7 @@ from sklearn.model_selection import train_test_split
 class DiabetesPredictionApp(QWidget):
     def __init__(self):
         super().__init__()
+        self.fontSize = '20px'
         self.model = None
         self.df = None
         self.accuracy = None
@@ -30,7 +31,7 @@ class DiabetesPredictionApp(QWidget):
         self.predictButton = None
         self.loadDataButton = None
 
-        self.init_ui()
+        self.initUI()
 
     # Load the kNN model and calculate its accuracy
     def loadModel(self):
@@ -56,7 +57,7 @@ class DiabetesPredictionApp(QWidget):
             print(f"Error: {e}")
             raise
 
-    def init_ui(self):
+    def initUI(self):
         # Set window properties
         self.setWindowTitle('Diabetes Prediction')
         self.setGeometry(100, 100, 600, 600)
@@ -69,44 +70,53 @@ class DiabetesPredictionApp(QWidget):
         main_layout.addWidget(title)
         # Create grid layout for input fields
         grid_layout = QGridLayout()
+
         # Create and add widgets to the grid layout
-        grid_layout.addWidget(QLabel('Number of Pregnancies:'), 0, 0)
+        grid_layout.addWidget(self.addQLabel("Pregnancies"), 0, 0)
         self.pregnancyInput = QLineEdit()
+        self.pregnancyInput.setStyleSheet(f'font-size: {self.fontSize}')
         self.pregnancyInput.setValidator(QIntValidator(0, 20))
         grid_layout.addWidget(self.pregnancyInput, 0, 1)
 
-        grid_layout.addWidget(QLabel('Glucose Level:'), 1, 0)
+        grid_layout.addWidget(self.addQLabel("Glucose level:"), 1, 0)
         self.glucoseInput = QLineEdit()
+        self.glucoseInput.setStyleSheet(f'font-size: {self.fontSize}')
         self.glucoseInput.setValidator(QIntValidator(0, 300))
         grid_layout.addWidget(self.glucoseInput, 1, 1)
 
-        grid_layout.addWidget(QLabel('Blood Pressure:'), 2, 0)
+        grid_layout.addWidget(self.addQLabel("Blood Pressure:"), 2, 0)
         self.bloodPressureInput = QLineEdit()
+        self.bloodPressureInput.setStyleSheet(f'font-size: {self.fontSize}')
         self.bloodPressureInput.setValidator(QIntValidator(0, 200))
         grid_layout.addWidget(self.bloodPressureInput, 2, 1)
 
-        grid_layout.addWidget(QLabel('Skin Thickness:'), 3, 0)
+        grid_layout.addWidget(self.addQLabel("Skin Thickness:"), 3, 0)
         self.skinThicknessInput = QLineEdit()
+        self.skinThicknessInput.setStyleSheet(f'font-size: {self.fontSize}')
         self.skinThicknessInput.setValidator(QIntValidator(0, 100))
         grid_layout.addWidget(self.skinThicknessInput, 3, 1)
 
-        grid_layout.addWidget(QLabel('Insulin Level:'), 4, 0)
+        grid_layout.addWidget(self.addQLabel("Insulin Level:"), 4, 0)
         self.insulinInput = QLineEdit()
+        self.insulinInput.setStyleSheet(f'font-size: {self.fontSize}')
         self.insulinInput.setValidator(QIntValidator(0, 900))
         grid_layout.addWidget(self.insulinInput, 4, 1)
 
-        grid_layout.addWidget(QLabel('Body Mass Index:'), 5, 0)
+        grid_layout.addWidget(self.addQLabel("Body Mass Index:"), 5, 0)
         self.bmiInput = QLineEdit()
+        self.bmiInput.setStyleSheet(f'font-size: {self.fontSize}')
         self.bmiInput.setValidator(QDoubleValidator(0, 100, 2))
         grid_layout.addWidget(self.bmiInput, 5, 1)
 
-        grid_layout.addWidget(QLabel('Diabetes Pedigree Function:'), 6, 0)
+        grid_layout.addWidget(self.addQLabel("Diabetes Pedigree Function:"), 6, 0)
         self.dpfInput = QLineEdit()
+        self.dpfInput.setStyleSheet(f'font-size: {self.fontSize}')
         self.dpfInput.setValidator(QDoubleValidator(0, 3, 2))
         grid_layout.addWidget(self.dpfInput, 6, 1)
 
-        grid_layout.addWidget(QLabel('Age:'), 7, 0)
+        grid_layout.addWidget(self.addQLabel("Age:"), 7, 0)
         self.ageInput = QLineEdit()
+        self.ageInput.setStyleSheet(f'font-size: {self.fontSize}')
         self.ageInput.setValidator(QIntValidator(0, 120))
         grid_layout.addWidget(self.ageInput, 7, 1)
 
@@ -114,26 +124,31 @@ class DiabetesPredictionApp(QWidget):
 
         # Result label
         self.resultLabel = QLabel('Result')
-        self.resultLabel.setFont(QFont('Arial', 14))
+        self.resultLabel.setFont(QFont('Arial', 16))
         self.resultLabel.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(self.resultLabel)
 
         # Predict button
         self.predictButton = QPushButton('Predict')
-        self.predictButton.setFont(QFont('Arial', 12))
-        self.predictButton.clicked.connect(self.predict_diabetes)
+        self.predictButton.setFont(QFont('Arial', 14))
+        self.predictButton.clicked.connect(self.predictDiabetes)
         main_layout.addWidget(self.predictButton)
 
         # Load Random Data button
         self.loadDataButton = QPushButton('Load Random Data')
-        self.loadDataButton.setFont(QFont('Arial', 12))
-        self.loadDataButton.clicked.connect(self.load_random_data)
+        self.loadDataButton.setFont(QFont('Arial', 14))
+        self.loadDataButton.clicked.connect(self.loadRandomData)
         main_layout.addWidget(self.loadDataButton)
 
         # Set main layout
         self.setLayout(main_layout)
 
-    def load_random_data(self):
+    def addQLabel(self, text):
+        qLabel = QLabel(text)
+        qLabel.setStyleSheet(f'font-size: {self.fontSize}')
+        return qLabel
+
+    def loadRandomData(self):
         # Load a random sample from the dataset
         random_row = self.df.sample(n=1).iloc[0]
         self.pregnancyInput.setText(str(int(random_row['Pregnancies'])))
@@ -145,7 +160,18 @@ class DiabetesPredictionApp(QWidget):
         self.dpfInput.setText(str(random_row['DiabetesPedigreeFunction']))
         self.ageInput.setText(str(int(random_row['Age'])))
 
-    def predict_diabetes(self):
+    def predictDiabetes(self):
+        # Check if all inputs are filled
+        inputs = [
+            self.pregnancyInput, self.glucoseInput, self.bloodPressureInput,
+            self.skinThicknessInput, self.insulinInput, self.bmiInput,
+            self.dpfInput, self.ageInput
+        ]
+        for input_field in inputs:
+            if not input_field.text():
+                QMessageBox.warning(self, "Input Error", "Please fill all input fields.")
+                return
+
         # Get values from input fields
         pregnancies = int(self.pregnancyInput.text())
         glucose = float(self.glucoseInput.text())
