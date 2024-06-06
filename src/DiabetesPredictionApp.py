@@ -95,7 +95,7 @@ class DiabetesPredictionApp(QWidget):
         gridLayout.addWidget(self.bmiInput, 5, 1)
 
         gridLayout.addWidget(self.addQLabel("Diabetes Pedigree Function:"), 6, 0)
-        self.dpfInput = self.addQLineEdit(QDoubleValidator(0, 3, 2))
+        self.dpfInput = self.addQLineEdit(QDoubleValidator(0, 3, 3))
         gridLayout.addWidget(self.dpfInput, 6, 1)
 
         gridLayout.addWidget(self.addQLabel("Age:"), 7, 0)
