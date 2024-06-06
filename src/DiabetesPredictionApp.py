@@ -9,6 +9,15 @@ from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLay
     QGridLayout, QLineEdit, QMessageBox
 
 
+def addQPushButton(text, method):
+    button = QPushButton(text)
+    button.setFont(QFont('Arial', 14))
+    button.setStyleSheet("border: 2px solid white; background-color: lightgray;")
+    button.setFixedHeight(50)
+    button.clicked.connect(method)
+    return button
+
+
 class DiabetesPredictionApp(QWidget):
     def __init__(self):
         super().__init__()
@@ -43,6 +52,7 @@ class DiabetesPredictionApp(QWidget):
             print(f"Error: {e}")
             raise
 
+    # Init UI components
     def initUI(self):
         # Set window properties
         self.setWindowTitle('Diabetes Prediction')
@@ -50,104 +60,81 @@ class DiabetesPredictionApp(QWidget):
         # Set background color
         self.setStyleSheet("background-color: lightblue;")
         # Main layout
-        main_layout = QVBoxLayout()
+        mainLayout = QVBoxLayout()
         # Title and description
         title = QLabel('Diabetes Prediction')
         title.setFont(QFont('Arial', 16))
         title.setAlignment(Qt.AlignCenter)
-        main_layout.addWidget(title)
+        mainLayout.addWidget(title)
         # Create grid layout for input fields
-        grid_layout = QGridLayout()
+        gridLayout = QGridLayout()
 
         # Create and add widgets to the grid layout
-        grid_layout.addWidget(self.addQLabel("Pregnancies"), 0, 0)
-        self.pregnancyInput = QLineEdit()
-        self.pregnancyInput.setStyleSheet(
-            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
-        self.pregnancyInput.setValidator(QIntValidator(0, 20))
-        grid_layout.addWidget(self.pregnancyInput, 0, 1)
+        gridLayout.addWidget(self.addQLabel("Pregnancies"), 0, 0)
+        self.pregnancyInput = self.addQLineEdit(QIntValidator(0, 20))
+        gridLayout.addWidget(self.pregnancyInput, 0, 1)
 
-        grid_layout.addWidget(self.addQLabel("Glucose level:"), 1, 0)
-        self.glucoseInput = QLineEdit()
-        self.glucoseInput.setStyleSheet(
-            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
-        self.glucoseInput.setValidator(QIntValidator(0, 300))
-        grid_layout.addWidget(self.glucoseInput, 1, 1)
+        gridLayout.addWidget(self.addQLabel("Glucose level:"), 1, 0)
+        self.glucoseInput = self.addQLineEdit(QIntValidator(0, 300))
+        gridLayout.addWidget(self.glucoseInput, 1, 1)
 
-        grid_layout.addWidget(self.addQLabel("Blood Pressure:"), 2, 0)
-        self.bloodPressureInput = QLineEdit()
-        self.bloodPressureInput.setStyleSheet(
-            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
-        self.bloodPressureInput.setValidator(QIntValidator(0, 200))
-        grid_layout.addWidget(self.bloodPressureInput, 2, 1)
+        gridLayout.addWidget(self.addQLabel("Blood Pressure:"), 2, 0)
+        self.bloodPressureInput = self.addQLineEdit(QIntValidator(0, 200))
+        gridLayout.addWidget(self.bloodPressureInput, 2, 1)
 
-        grid_layout.addWidget(self.addQLabel("Skin Thickness:"), 3, 0)
-        self.skinThicknessInput = QLineEdit()
-        self.skinThicknessInput.setStyleSheet(
-            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
-        self.skinThicknessInput.setValidator(QIntValidator(0, 100))
-        grid_layout.addWidget(self.skinThicknessInput, 3, 1)
+        gridLayout.addWidget(self.addQLabel("Skin Thickness:"), 3, 0)
+        self.skinThicknessInput = self.addQLineEdit(QIntValidator(0, 100))
+        gridLayout.addWidget(self.skinThicknessInput, 3, 1)
 
-        grid_layout.addWidget(self.addQLabel("Insulin Level:"), 4, 0)
-        self.insulinInput = QLineEdit()
-        self.insulinInput.setStyleSheet(
-            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray; ')
-        self.insulinInput.setValidator(QIntValidator(0, 900))
-        grid_layout.addWidget(self.insulinInput, 4, 1)
+        gridLayout.addWidget(self.addQLabel("Insulin Level:"), 4, 0)
+        self.insulinInput = self.addQLineEdit(QIntValidator(0, 900))
+        gridLayout.addWidget(self.insulinInput, 4, 1)
 
-        grid_layout.addWidget(self.addQLabel("Body Mass Index:"), 5, 0)
-        self.bmiInput = QLineEdit()
-        self.bmiInput.setStyleSheet(
-            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
-        self.bmiInput.setValidator(QDoubleValidator(0, 100, 2))
-        grid_layout.addWidget(self.bmiInput, 5, 1)
+        gridLayout.addWidget(self.addQLabel("Body Mass Index:"), 5, 0)
+        self.bmiInput = self.addQLineEdit(QDoubleValidator(0, 100, 2))
+        gridLayout.addWidget(self.bmiInput, 5, 1)
 
-        grid_layout.addWidget(self.addQLabel("Diabetes Pedigree Function:"), 6, 0)
-        self.dpfInput = QLineEdit()
-        self.dpfInput.setStyleSheet(
-            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
-        self.dpfInput.setValidator(QDoubleValidator(0, 3, 2))
-        grid_layout.addWidget(self.dpfInput, 6, 1)
+        gridLayout.addWidget(self.addQLabel("Diabetes Pedigree Function:"), 6, 0)
+        self.dpfInput = self.addQLineEdit(QDoubleValidator(0, 3, 2))
+        gridLayout.addWidget(self.dpfInput, 6, 1)
 
-        grid_layout.addWidget(self.addQLabel("Age:"), 7, 0)
-        self.ageInput = QLineEdit()
-        self.ageInput.setStyleSheet(
-            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
-        self.ageInput.setValidator(QIntValidator(0, 120))
-        grid_layout.addWidget(self.ageInput, 7, 1)
-
-        main_layout.addLayout(grid_layout)
+        gridLayout.addWidget(self.addQLabel("Age:"), 7, 0)
+        self.ageInput = self.addQLineEdit(QIntValidator(0, 120))
+        gridLayout.addWidget(self.ageInput, 7, 1)
+        mainLayout.addLayout(gridLayout)
 
         # Result label
         self.resultLabel = QLabel('Result')
         self.resultLabel.setFont(QFont('Arial', 16))
         self.resultLabel.setAlignment(Qt.AlignCenter)
-        main_layout.addWidget(self.resultLabel)
+        mainLayout.addWidget(self.resultLabel)
 
         # Predict button
-        self.predictButton = QPushButton('Predict')
-        self.predictButton.setFont(QFont('Arial', 14))
-        self.predictButton.setStyleSheet("border: 2px solid white; background-color: lightgray;")
-        self.predictButton.setFixedHeight(50)
-        self.predictButton.clicked.connect(self.predictDiabetes)
-        main_layout.addWidget(self.predictButton)
+        self.predictButton = addQPushButton('Predict', self.predictDiabetes)
+        mainLayout.addWidget(self.predictButton)
 
         # Load Random Data button
-        self.loadDataButton = QPushButton('Load Random Data')
-        self.loadDataButton.setFont(QFont('Arial', 14))
-        self.loadDataButton.setStyleSheet("border: 2px solid white; background-color: lightgray;")
-        self.loadDataButton.setFixedHeight(50)
-        self.loadDataButton.clicked.connect(self.loadRandomData)
-        main_layout.addWidget(self.loadDataButton)
+        self.loadDataButton = addQPushButton('Load Random Data', self.loadRandomData)
+        mainLayout.addWidget(self.loadDataButton)
 
         # Set main layout
-        self.setLayout(main_layout)
+        self.setLayout(mainLayout)
 
+    # Create QLabel using this function
     def addQLabel(self, text):
         qLabel = QLabel(text)
         qLabel.setStyleSheet(f'font-size: {self.fontSize}')
         return qLabel
 
+    # Create QLineEdit using this function
+    def addQLineEdit(self, validator):
+        qLineEdit = QLineEdit()
+        qLineEdit.setStyleSheet(
+            f'font-size: {self.fontSize}; border: 2px solid white; background-color: lightgray;')
+        qLineEdit.setValidator(validator)
+        return qLineEdit
+
+    # Load random data into form fields
     def loadRandomData(self):
         # Load a random sample from the dataset
         random_row = self.df.sample(n=1).iloc[0]
@@ -160,6 +147,7 @@ class DiabetesPredictionApp(QWidget):
         self.dpfInput.setText(str(random_row['DiabetesPedigreeFunction']))
         self.ageInput.setText(str(int(random_row['Age'])))
 
+    # Predict Diabetes from form input
     def predictDiabetes(self):
         # Check if all inputs are filled
         inputs = [
