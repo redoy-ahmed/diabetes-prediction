@@ -1,6 +1,6 @@
 # Diabetes Prediction Application using ML Models
 
-![Diabetes Prediction](https://github.com/redoy-ahmed/diabetes-prediction/blob/master/img.png)
+![Diabetes Prediction](https://github.com/redoy-ahmed/diabetes-prediction/blob/master/img2.png)
 
 ## Overview
 
@@ -63,8 +63,39 @@ python gausian_naive_bayes.py
       Execute the main script using Python:
 
    ```bash
-   python diabetes_prediction.py
+   python DiabetesPredictionApp.py
    ```
+
+3. The application window will open. You can input your medical information into the fields provided.
+
+4. Click on the "Predict" button to get the prediction result.
+
+5. You can also click on the "Load Random Data" button to load a random sample from the dataset for testing.
+
+## Code Overview
+
+### Main Application
+
+The main application is defined in `app.py`. It includes:
+
+- **Model Loading**: The `loadModel` method loads the kNN model and the dataset.
+- **UI Initialization**: The `initUI` method sets up the user interface including input fields, labels, and buttons.
+- **Event Handling**: The `loadRandomData` and `predictDiabetes` methods handle the button click events to load data and make predictions, respectively.
+
+### Helper Functions
+
+- **addQLabel**: Creates and returns a `QLabel` with the specified text and styles.
+- **addQLineEdit**: Creates and returns a `QLineEdit` with a validator for user input.
+
+## Contributing
+
+Feel free to submit issues and enhancement requests.
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+
    
 3. Interact with the GUI:
 
